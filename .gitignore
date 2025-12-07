@@ -1,0 +1,26 @@
+node_modules/
+dist/
+build/
+*.log
+.env
+.env.local
+.DS_Store
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Midnight specific
+.midnight/
+proof-server-data/
+*.zkproof
+.compact-cache/
+
+# Build artifacts
+*.tsbuildinfo
+coverage/
+.nyc_output/
+
+# OS
+Thumbs.db

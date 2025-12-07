@@ -1,0 +1,86 @@
+[
+    {
+        "address": "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb5",
+        "name": "TechCorp Inc.",
+        "type": "Technology Company",
+        "verified": true,
+        "verifiedAt": "2023-08-10T00:00:00Z",
+        "reputation": 9.2,
+        "credentialsIssued": 1247,
+        "website": "https://techcorp.example.com",
+        "industry": "Software Development",
+        "employeeCount": "1000-5000"
+    },
+    {
+        "address": "0x8ba1f109551bD432803012645Ac136ddd64DBA72",
+        "name": "Design Academy",
+        "type": "Education Institution",
+        "verified": true,
+        "verifiedAt": "2023-09-15T00:00:00Z",
+        "reputation": 8.5,
+        "credentialsIssued": 523,
+        "website": "https://designacademy.example.com",
+        "industry": "Education",
+        "employeeCount": "100-500"
+    },
+    {
+        "address": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+        "name": "Data Science Bootcamp",
+        "type": "Training Provider",
+        "verified": false,
+        "verifiedAt": null,
+        "reputation": 7.1,
+        "credentialsIssued": 89,
+        "website": "https://dsbootcamp.example.com",
+        "industry": "Education",
+        "employeeCount": "10-50"
+    },
+    {
+        "address": "0x90F79bf6EB2c4f870365E785982E1f101E93b906",
+        "name": "Blockchain Labs",
+        "type": "Technology Company",
+        "verified": true,
+        "verifiedAt": "2024-01-20T00:00:00Z",
+        "reputation": 9.0,
+        "credentialsIssued": 342,
+        "website": "https://blockchainlabs.example.com",
+        "industry": "Web3 & Blockchain",
+        "employeeCount": "50-200"
+    },
+    {
+        "address": "0x15d34AAf54267DB7D7c367839AAf71A00a2C6A65",
+        "name": "Marketing Masters",
+        "type": "Marketing Agency",
+        "verified": true,
+        "verifiedAt": "2023-10-05T00:00:00Z",
+        "reputation": 8.3,
+        "credentialsIssued": 678,
+        "website": "https://marketingmasters.example.com",
+        "industry": "Marketing & Advertising",
+        "employeeCount": "200-500"
+    },
+    {
+        "address": "0x9965507D1a55bcC2695C58ba16FB37d819B0A4dc",
+        "name": "Google (Verified)",
+        "type": "Technology Company",
+        "verified": true,
+        "verifiedAt": "2023-07-01T00:00:00Z",
+        "reputation": 9.8,
+        "credentialsIssued": 15234,
+        "website": "https://google.com",
+        "industry": "Technology",
+        "employeeCount": "100000+"
+    },
+    {
+        "address": "0x976EA74026E726554dB657fA54763abd0C3a0aa9",
+        "name": "Meta (Verified)",
+        "type": "Technology Company",
+        "verified": true,
+        "verifiedAt": "2023-07-01T00:00:00Z",
+        "reputation": 9.6,
+        "credentialsIssued": 12890,
+        "website": "https://meta.com",
+        "industry": "Social Media & Technology",
+        "employeeCount": "100000+"
+    }
+]

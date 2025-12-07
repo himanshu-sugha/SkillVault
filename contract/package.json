@@ -1,0 +1,19 @@
+{
+    "name": "@skillvault/contract",
+    "version": "1.0.0",
+    "description": "SkillVault smart contracts in Compact",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "compact": "compact compile src/skillvault.compact ./src/managed/skillvault",
+        "build": "rm -rf dist && tsc --project tsconfig.build.json && cp -Rf ./src/managed ./dist/managed && cp ./src/skillvault.compact ./dist",
+        "test": "echo \"Tests to be implemented\""
+    },
+    "dependencies": {
+        "@midnight-ntwrk/compact-runtime": "latest"
+    },
+    "devDependencies": {
+        "@types/node": "^22.0.0",
+        "typescript": "^5.6.0"
+    }
+}

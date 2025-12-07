@@ -1,0 +1,194 @@
+[
+    {
+        "id": "job_001",
+        "title": "Senior React Developer",
+        "company": {
+            "name": "Stealth Startup",
+            "isConfidential": true,
+            "industry": "Web3 Infrastructure"
+        },
+        "location": "Remote",
+        "salaryRange": {
+            "lower": 140000,
+            "upper": 180000,
+            "currency": "USD"
+        },
+        "requirements": {
+            "skillCategory": "PROGRAMMING",
+            "skillName": "React Development",
+            "minSkillLevel": 7,
+            "minYears": 5,
+            "preferredSkillLevel": 9
+        },
+        "description": "We're building the future of decentralized applications. Need a React expert to lead frontend development.",
+        "benefits": [
+            "Remote-first culture",
+            "Equity package",
+            "Unlimited PTO",
+            "Latest tech stack"
+        ],
+        "postedAt": "2024-11-15T10:00:00Z",
+        "applicants": 23,
+        "matchScore": 95
+    },
+    {
+        "id": "job_002",
+        "title": "UI/UX Designer",
+        "company": {
+            "name": "DesignFlow",
+            "isConfidential": false,
+            "industry": "SaaS"
+        },
+        "location": "San Francisco, CA (Hybrid)",
+        "salaryRange": {
+            "lower": 100000,
+            "upper": 130000,
+            "currency": "USD"
+        },
+        "requirements": {
+            "skillCategory": "DESIGN",
+            "skillName": "UI/UX Design",
+            "minSkillLevel": 6,
+            "minYears": 3,
+            "preferredSkillLevel": 8
+        },
+        "description": "Join our design team to create beautiful, user-centric experiences for enterprise customers.",
+        "benefits": [
+            "Health insurance",
+            "401k matching",
+            "Design conference budget",
+            "Latest tools (Figma, etc.)"
+        ],
+        "postedAt": "2024-11-18T14:30:00Z",
+        "applicants": 47,
+        "matchScore": 88
+    },
+    {
+        "id": "job_003",
+        "title": "Smart Contract Developer",
+        "company": {
+            "name": "DeFi Protocol X",
+            "isConfidential": true,
+            "industry": "DeFi"
+        },
+        "location": "Remote",
+        "salaryRange": {
+            "lower": 150000,
+            "upper": 200000,
+            "currency": "USD"
+        },
+        "requirements": {
+            "skillCategory": "PROGRAMMING",
+            "skillName": "Solidity & Smart Contracts",
+            "minSkillLevel": 7,
+            "minYears": 3,
+            "preferredSkillLevel": 9
+        },
+        "description": "Build secure, scalable smart contracts for our next-generation DeFi platform. Security-first mindset required.",
+        "benefits": [
+            "Token allocation",
+            "Remote work",
+            "Top-tier salary",
+            "Work with best in industry"
+        ],
+        "postedAt": "2024-11-17T09:15:00Z",
+        "applicants": 31,
+        "matchScore": 92
+    },
+    {
+        "id": "job_004",
+        "title": "Machine Learning Engineer",
+        "company": {
+            "name": "AI Research Lab",
+            "isConfidential": false,
+            "industry": "Artificial Intelligence"
+        },
+        "location": "New York, NY",
+        "salaryRange": {
+            "lower": 130000,
+            "upper": 170000,
+            "currency": "USD"
+        },
+        "requirements": {
+            "skillCategory": "DATA_SCIENCE",
+            "skillName": "Machine Learning",
+            "minSkillLevel": 6,
+            "minYears": 2,
+            "preferredSkillLevel": 8
+        },
+        "description": "Research and deploy cutting-edge ML models for computer vision and NLP applications.",
+        "benefits": [
+            "Research budget",
+            "Conference attendance",
+            "GPU compute credits",
+            "Publication opportunities"
+        ],
+        "postedAt": "2024-11-16T11:00:00Z",
+        "applicants": 52,
+        "matchScore": 75
+    },
+    {
+        "id": "job_005",
+        "title": "Growth Marketing Lead",
+        "company": {
+            "name": "FastGrow SaaS",
+            "isConfidential": false,
+            "industry": "B2B SaaS"
+        },
+        "location": "Austin, TX (Remote OK)",
+        "salaryRange": {
+            "lower": 90000,
+            "upper": 120000,
+            "currency": "USD"
+        },
+        "requirements": {
+            "skillCategory": "MARKETING",
+            "skillName": "Growth Marketing",
+            "minSkillLevel": 6,
+            "minYears": 3,
+            "preferredSkillLevel": 8
+        },
+        "description": "Lead our growth initiatives across SEO, content, and paid channels. Data-driven approach essential.",
+        "benefits": [
+            "Performance bonuses",
+            "Marketing budget control",
+            "Flexible schedule",
+            "Team leadership"
+        ],
+        "postedAt": "2024-11-14T13:45:00Z",
+        "applicants": 38,
+        "matchScore": 82
+    },
+    {
+        "id": "job_006",
+        "title": "Full Stack Developer",
+        "company": {
+            "name": "TechVentures",
+            "isConfidential": false,
+            "industry": "Startup Incubator"
+        },
+        "location": "Remote",
+        "salaryRange": {
+            "lower": 110000,
+            "upper": 145000,
+            "currency": "USD"
+        },
+        "requirements": {
+            "skillCategory": "PROGRAMMING",
+            "skillName": "React Development",
+            "minSkillLevel": 6,
+            "minYears": 4,
+            "preferredSkillLevel": 8
+        },
+        "description": "Build MVPs for multiple portfolio companies. Fast-paced, high-impact role.",
+        "benefits": [
+            "Equity in portfolio companies",
+            "Work on diverse projects",
+            "Startup mentorship",
+            "Flexible hours"
+        ],
+        "postedAt": "2024-11-13T10:20:00Z",
+        "applicants": 29,
+        "matchScore": 90
+    }
+]

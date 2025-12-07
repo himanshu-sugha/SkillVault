@@ -1,0 +1,284 @@
+// SkillVault - Privacy-Preserving Professional Credential System
+// Written in Compact for Midnight Network
+// This contract enables professionals to prove skills without revealing sensitive details
+
+import { Ledger, type Witnesses } from '@midnight-ntwrk/compact-runtime';
+
+//=============================================================================
+// TYPE DEFINITIONS
+//=============================================================================
+
+// Skill categories (can be extended)
+export type SkillCategory = 
+  | 'PROGRAMMING' 
+  | 'DESIGN' 
+  | 'MARKETING' 
+  | 'MANAGEMENT' 
+  | 'DATA_SCIENCE'
+  | 'OTHER';
+
+// Credential structure (stored privately)
+export type Credential = {
+  issuerAddress: Address;        // Who issued this credential (employer, bootcamp, etc.)
+  skillCategory: SkillCategory;  // What skill domain
+  skillLevel: UInt8;             // 1-10 rating
+  yearsExperience: UInt8;        // Years in this skill
+  salaryRangeLower: UInt32;      // Lower bound of salary (optional, 0 if not set)
+  salaryRangeUpper: UInt32;      // Upper bound of salary
+  issuedAt: UInt64;              // Timestamp
+  isRevoked: Boolean;            // Revocation status
+};
+
+// Job requirements
+export type JobRequirement = {
+  skillCategory: SkillCategory;
+  minSkillLevel: UInt8;
+  minYears: UInt8;
+  minSalaryExpectation: UInt32;  // Optional salary requirement
+};
+
+// Proof result (what gets revealed publicly)
+export type ProofResult = {
+  meetsRequirements: Boolean;
+  skillCategoryHash: Bytes<32>;  // Hash of skill category (not exact category)
+  timestamp: UInt64;
+};
+
+//=============================================================================
+// CONTRACT STATE
+//=============================================================================
+
+export contract SkillVault {
+  // Public state
+  public totalCredentialsIssued: UInt64;
+  public totalProofsGenerated: UInt64;
+  public verifiedIssuers: Map<Address, Boolean>;
+  
+  // Private state (each user has their own)
+  private credentials: Vector<Credential>;
+  private proofsSubmitted: Vector<ProofResult>;
+
+  //===========================================================================
+  // INITIALIZATION
+  //===========================================================================
+
+  export function constructor(): void {
+    this.totalCredentialsIssued = 0n;
+    this.totalProofsGenerated = 0n;
+    this.verifiedIssuers = new Map();
+    this.credentials = new Vector();
+    this.proofsSubmitted = new Vector();
+  }
+
+  //===========================================================================
+  // ISSUER MANAGEMENT (Public)
+  //===========================================================================
+
+  @circuit
+  export function registerIssuer(
+    witnesses: Witnesses<{
+      issuerAddress: Address;
+    }>,
+  ): void {
+    // In production, this would require stake or governance approval
+    // For hackathon demo, any address can register
+    this.verifiedIssuers.set(witnesses.issuerAddress, true);
+  }
+
+  @circuit
+  export function revokeIssuer(
+    witnesses: Witnesses<{
+      issuerAddress: Address;
+    }>,
+  ): void {
+    this.verifiedIssuers.set(witnesses.issuerAddress, false);
+  }
+
+  //===========================================================================
+  // CREDENTIAL STORAGE (Private)
+  //===========================================================================
+
+  @circuit
+  export function storeCredential(
+    witnesses: Witnesses<{
+      issuerAddress: Address;
+      skillCategory: SkillCategory;
+      skillLevel: UInt8;
+      yearsExperience: UInt8;
+      salaryRangeLower: UInt32;
+      salaryRangeUpper: UInt32;
+      issuerSignature: Bytes<64>;  // Signature from issuer
+    }>,
+  ): void {
+    // Verify issuer is registered
+    const isVerified = this.verifiedIssuers.get(witnesses.issuerAddress);
+    assert(isVerified === true, 'Issuer not verified');
+
+    // In production, verify signature here
+    // For demo, we'll assume signature is valid
+
+    // Create credential
+    const credential: Credential = {
+      issuerAddress: witnesses.issuerAddress,
+      skillCategory: witnesses.skillCategory,
+      skillLevel: witnesses.skillLevel,
+      yearsExperience: witnesses.yearsExperience,
+      salaryRangeLower: witnesses.salaryRangeLower,
+      salaryRangeUpper: witnesses.salaryRangeUpper,
+      issuedAt: ledger.timestamp,
+      isRevoked: false,
+    };
+
+    // Store privately
+    this.credentials.push(credential);
+    
+    // Increment public counter
+    this.totalCredentialsIssued = this.totalCredentialsIssued + 1n;
+  }
+
+  //===========================================================================
+  // ZK PROOF GENERATION (The Magic!)
+  //===========================================================================
+
+  @circuit
+  export function generateSkillProof(
+    witnesses: Witnesses<{
+      credentialIndex: UInt32;       // Which credential to use
+      requiredSkillLevel: UInt8;     // What needs to be proven
+      requiredYears: UInt8;          // Minimum years required
+      requiredSalary: UInt32;        // Minimum salary expectation
+      revealSkillCategory: Boolean;  // Whether to reveal exact category
+    }>,
+  ): ProofResult {
+    // Get the credential (private)
+    const index = Number(witnesses.credentialIndex);
+    assert(index < this.credentials.length, 'Invalid credential index');
+    const cred = this.credentials.at(index);
+
+    // Verify not revoked
+    assert(cred.isRevoked === false, 'Credential has been revoked');
+
+    // Check skill level (ZK proof: skill >= required)
+    const meetsSkillLevel = cred.skillLevel >= witnesses.requiredSkillLevel;
+    
+    // Check years experience (ZK proof: years >= required)
+    const meetsYears = cred.yearsExperience >= witnesses.requiredYears;
+    
+    // Check salary expectations (ZK proof: salary >= required)
+    const meetsSalary = witnesses.requiredSalary === 0n 
+      ? true 
+      : cred.salaryRangeUpper >= witnesses.requiredSalary;
+
+    // Overall requirement
+    const meetsAll = meetsSkillLevel && meetsYears && meetsSalary;
+
+    // Generate skill category hash (privacy-preserving)
+    const categoryBytes = Bytes.fromString(cred.skillCategory);
+    const skillHash = hash(categoryBytes);
+
+    // Create proof result
+    const proof: ProofResult = {
+      meetsRequirements: meetsAll,
+      skillCategoryHash: skillHash,
+      timestamp: ledger.timestamp,
+    };
+
+    // Store proof privately
+    this.proofsSubmitted.push(proof);
+    
+    // Increment public counter
+    this.totalProofsGenerated = this.totalProofsGenerated + 1n;
+
+    return proof;
+  }
+
+  //===========================================================================
+  // ADVANCED: AGGREGATE REPUTATION PROOF
+  //===========================================================================
+
+  @circuit
+  export function generateAggregateProof(
+    witnesses: Witnesses<{
+      credentialIndices: Vector<UInt32>;  // Multiple credentials to aggregate
+      minAverageSkillLevel: UInt8;        // Required average
+    }>,
+  ): ProofResult {
+    // Calculate average skill level across multiple credentials
+   let totalSkill: UInt32 = 0n;
+    let count: UInt32 = 0n;
+
+    for (let i = 0; i < witnesses.credentialIndices.length; i++) {
+      const idx = Number(witnesses.credentialIndices.at(i));
+      const cred = this.credentials.at(idx);
+      
+      if (!cred.isRevoked) {
+        totalSkill = totalSkill + UInt32(cred.skillLevel);
+        count = count + 1n;
+      }
+    }
+
+    // Compute average
+    const avgSkill = count > 0n ? UInt8(totalSkill / count) : 0n;
+    
+    // Check if meets minimum
+    const meetsRequirement = avgSkill >= witnesses.minAverageSkillLevel;
+
+    const proof: ProofResult = {
+      meetsRequirements: meetsRequirement,
+      skillCategoryHash: hash(Bytes.fromString('AGGREGATE')),
+      timestamp: ledger.timestamp,
+    };
+
+    this.proofsSubmitted.push(proof);
+    this.totalProofsGenerated = this.totalProofsGenerated + 1n;
+
+    return proof;
+  }
+
+  //===========================================================================
+  // CREDENTIAL REVOCATION
+  //===========================================================================
+
+  @circuit
+  export function revokeCredential(
+    witnesses: Witnesses<{
+      credentialIndex: UInt32;
+    }>,
+  ): void {
+    const index = Number(witnesses.credentialIndex);
+    assert(index < this.credentials.length, 'Invalid credential index');
+    
+    // Mark as revoked (private state update)
+    const cred = this.credentials.at(index);
+    cred.isRevoked = true;
+    this.credentials.set(index, cred);
+  }
+
+  //===========================================================================
+  // QUERY FUNCTIONS (Private data, called off-chain)
+  //===========================================================================
+
+  export function getCredentialCount(): UInt32 {
+    return UInt32(this.credentials.length);
+  }
+
+  export function getProofCount(): UInt32 {
+    return UInt32(this.proofsSubmitted.length);
+  }
+
+  //===========================================================================
+  // HELPER FUNCTIONS
+  //===========================================================================
+
+  function hash(data: Bytes): Bytes<32> {
+    // In production, use proper cryptographic hash
+    // For demo, simplified hash
+    return Bytes.fromHex('0x' + '00'.repeat(32));
+  }
+}
+
+//=============================================================================
+// DEPLOYMENT
+//=============================================================================
+
+export const contract = new SkillVault();
