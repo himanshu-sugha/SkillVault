@@ -13,4 +13,19 @@ export default defineConfig({
         port: 5173,
         open: true,
     },
+    build: {
+        rollupOptions: {
+            // Externalize packages that have native dependencies
+            external: [
+                '@midnight-ntwrk/midnight-js-level-private-state-provider',
+            ],
+        },
+    },
+    // Handle packages that might not be available
+    optimizeDeps: {
+        exclude: [
+            '@midnight-ntwrk/midnight-js-level-private-state-provider',
+        ],
+    },
 })
+

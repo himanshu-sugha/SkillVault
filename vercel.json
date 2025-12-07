@@ -1,0 +1,21 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "skillvault-ui/package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "dist"
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/skillvault-ui/$1"
+        }
+    ],
+    "installCommand": "cd skillvault-ui && npm install",
+    "buildCommand": "cd skillvault-ui && npm run build",
+    "outputDirectory": "skillvault-ui/dist"
+}
