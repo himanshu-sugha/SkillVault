@@ -66,8 +66,7 @@ class MidnightServiceImpl {
     private isConnected: boolean = false;
     private walletAddress: string | null = null;
     private mode: 'real' | 'demo' = 'demo';
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    private contractAPI: any = null;
+
 
     // Demo credentials (used in demo mode and for UI display)
     private demoCredentials: Credential[] = [
@@ -139,7 +138,6 @@ class MidnightServiceImpl {
         this.isConnected = false;
         this.walletAddress = null;
         this.mode = 'demo';
-        this.contractAPI = null;
     }
 
     /**
